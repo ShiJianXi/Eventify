@@ -1,6 +1,6 @@
 # Eventify
 
 Features:
-[ ] Authentication
-[ ] Events Listing Page
-[ ]
+- [ ] Authentication
+- [ ] Events Listing Page
+- [ ]
