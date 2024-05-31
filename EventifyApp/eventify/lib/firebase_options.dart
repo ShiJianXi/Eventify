@@ -45,7 +45,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD7CeIsK2NrWbs8HxsQkU3e29GHP8twtYw',
-    appId: '1:850911623880:android:11f068cde9b47e07ce43fd',
+    appId: '1:850911623880:android:09f85175f59d6a22ce43fd',
     messagingSenderId: '850911623880',
     projectId: 'eventify-8213b',
     storageBucket: 'eventify-8213b.appspot.com',
@@ -78,5 +78,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'eventify-8213b.appspot.com',
     measurementId: 'G-81GMNGNE1E',
   );
-
 }
