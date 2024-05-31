@@ -70,7 +70,7 @@ final _router = GoRouter(
                     child: Column(
                       children: [
                         Image.asset(
-                          'assets/codelab.png',
+                          'assets/eventify.png',
                           fit: BoxFit.contain,
                         ),
                       ],
