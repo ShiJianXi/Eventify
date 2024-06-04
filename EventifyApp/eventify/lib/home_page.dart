@@ -2,9 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+//import 'package:eventify/event_listing_page.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart'; // new
@@ -12,8 +14,21 @@ import 'app_state.dart'; // new
 import 'src/authentication.dart'; // new
 // import 'src/widgets.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  int _currentIndex = 0;
+
+  List<String> body = const [
+    '/',
+    '/event_listing',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +90,22 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+        bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (int newIndex) {
+          context.push(body[newIndex]);
+        },
+        items: [
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: 'EventListing',
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
