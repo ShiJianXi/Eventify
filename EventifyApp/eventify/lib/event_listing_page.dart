@@ -15,3 +15,4 @@ class EventListingPage extends StatelessWidget {
     );
   }
 }
+

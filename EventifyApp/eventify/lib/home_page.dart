@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 //import 'package:eventify/event_listing_page.dart';
+import 'package:eventify/event_details.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
@@ -54,40 +55,46 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0.0,
+                        horizontal: 16.0,
+                      ),
+                      prefixIcon: Icon(Icons.search),
+                    ),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 0.0,
-                    horizontal: 16.0,
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle filter button press
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.blue,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  child: Icon(Icons.filter_list),
                 ),
-              ),
+              ],
             ),
-            SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {
-                // Handle filter button press
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.blue,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Icon(Icons.filter_list),
-            ),
+            Text("Body content"),
+            event_details(title: "title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20")
           ],
         ),
       ),
