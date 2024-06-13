@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-class event_details extends StatelessWidget {
+//Not in use anymore, now this is done using FirebaseStore
+class event_display extends StatelessWidget {
   final String title;
   final String description;
   //final String rating;
@@ -10,7 +10,7 @@ class event_details extends StatelessWidget {
   final String price;
 
 
-  event_details({
+  event_display({
     required this.title,
     required this.description,
     required this.time,

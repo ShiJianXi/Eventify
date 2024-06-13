@@ -3,7 +3,10 @@
 // found in the LICENSE file.
 
 //import 'package:eventify/event_listing_page.dart';
-import 'package:eventify/event_details.dart';
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventify/event_display.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
@@ -93,8 +96,42 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Text("Body content"),
-            event_details(title: "title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20")
+            Text(
+              "Current Events",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15.0,
+            ),
+            ),
+            //event_display(title: "random title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20"),
+            //Displaying current event in the home page, by taking data from firebasestore
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('events')
+                    .orderBy('timestamp', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  var events = snapshot.data!.docs.map((doc) {
+                    var data = doc.data() as Map<String, dynamic>;
+                    return event_display(
+                      title: data['title'] ?? '',
+                      description: data['description'] ?? '',
+                      time: data['time'] ?? '',
+                      thumbnailUrl: data['thumbnailUrl'] ?? '',
+                      location: data['location'] ?? '',
+                      price: data['price'] ?? '',
+                    );
+                  }).toList();
+                  return ListView(
+                    children: events,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
