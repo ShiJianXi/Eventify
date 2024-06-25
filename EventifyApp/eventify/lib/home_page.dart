@@ -115,8 +115,12 @@ class _HomePageState extends State<HomePage> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
+                    //this print is for debugging, remove before production
+                    print('No data available');
                     return Center(child: CircularProgressIndicator());
                   }
+                  //this print is for debugging, remove before production
+                  print('data fetched successfully');
                   var events = snapshot.data!.docs.map((doc) {
                     var data = doc.data() as Map<String, dynamic>;
                     return Event_display(
