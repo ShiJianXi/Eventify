@@ -4,18 +4,23 @@ import 'package:flutter/material.dart';
 class Event_display extends StatelessWidget {
   final String title;
   final String description;
-  //final String rating;
-  final String time;
+  //final String time;
+  final String startDate;
+  final String endDate;
+  final String startTime;
+  final String endTime;
   final String thumbnailUrl;
   final String location;
   final String price;
 
-
   Event_display({
     required this.title,
     required this.description,
-    required this.time,
-    //required this.rating,
+    //required this.time,
+    required this.startDate,
+    required this.endDate,
+    required this.startTime,
+    required this.endTime,
     required this.thumbnailUrl,
     required this.location,
     required this.price,
@@ -55,8 +60,7 @@ class Event_display extends StatelessWidget {
           Align(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: 
-              Align(
+              child: Align(
                 alignment: Alignment.topCenter,
                 child: Text(
                   title,
@@ -73,8 +77,8 @@ class Event_display extends StatelessWidget {
             alignment: Alignment.center,
           ),
           Align(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
                   padding: EdgeInsets.all(5),
@@ -91,11 +95,32 @@ class Event_display extends StatelessWidget {
                         size: 18,
                       ),
                       SizedBox(width: 7),
-                      //Text(rating),
                       Text(
                         location,
                         style: TextStyle(color: Colors.white),
-                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_today,
+                        color: Colors.yellow,
+                        size: 18,
+                      ),
+                      SizedBox(width: 7),
+                      Text(
+                        '$startDate - $endDate',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -115,12 +140,12 @@ class Event_display extends StatelessWidget {
                       ),
                       SizedBox(width: 7),
                       Text(
-                        time,
+                        '$startTime - $endTime',
                         style: TextStyle(color: Colors.white),
-                        ),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
             alignment: Alignment.bottomLeft,

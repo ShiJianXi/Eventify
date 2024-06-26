@@ -19,11 +19,15 @@ class _EventListingPageState extends State<EventListingPage> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _timeController = TextEditingController();
+  //final _timeController = TextEditingController();
   final _locationController = TextEditingController();
   final _priceController = TextEditingController();
   File? _image;
 
+  DateTime? _startDate;
+  DateTime? _endDate;
+  TimeOfDay? _startTime;
+  TimeOfDay? _endTime;
 
   //Allow users to pick image from gallery
   Future<void> _pickImage() async {
@@ -63,7 +67,11 @@ class _EventListingPageState extends State<EventListingPage> {
         await FirebaseFirestore.instance.collection('events').add({
           'title': _titleController.text,
           'description': _descriptionController.text,
-          'time': _timeController.text,
+          //'time': _timeController.text,
+          'startDate': _startDate,
+          'endDate': _endDate,
+          'startTime': _startTime!.format(context),
+          'endTime': _endTime!.format(context),
           'location': _locationController.text,
           'price': _priceController.text,
           'thumbnailUrl': imageUrl,
@@ -74,6 +82,10 @@ class _EventListingPageState extends State<EventListingPage> {
         _formKey.currentState!.reset();
         setState(() {
           _image = null;
+          _startDate = null;
+          _endDate = null;
+          _startTime = null;
+          _endTime = null;
         });
       } catch (e) {
         ScaffoldMessenger.of(context)
@@ -82,6 +94,40 @@ class _EventListingPageState extends State<EventListingPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please fill all fields and pick an image')));
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context, bool isStartDate) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != (isStartDate ? _startDate : _endDate)) {
+      setState(() {
+        if (isStartDate) {
+          _startDate = picked;
+        } else {
+          _endDate = picked;
+        }
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null && picked != (isStartTime ? _startTime : _endTime)) {
+      setState(() {
+        if (isStartTime) {
+          _startTime = picked;
+        } else {
+          _endTime = picked;
+        }
+      });
     }
   }
 
@@ -148,21 +194,37 @@ class _EventListingPageState extends State<EventListingPage> {
                 elevation: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: _timeController,
-                    decoration: InputDecoration(
-                      labelText: 'Time',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a time';
-                      }
-                      return null;
-                    },
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                            'Start Date: ${_startDate != null ? DateFormat.yMd().format(_startDate!) : 'Select Date'}'),
+                        trailing: Icon(Icons.calendar_today),
+                        onTap: () => _selectDate(context, true),
+                      ),
+                      ListTile(
+                        title: Text(
+                            'End Date: ${_endDate != null ? DateFormat.yMd().format(_endDate!) : 'Select Date'}'),
+                        trailing: Icon(Icons.calendar_today),
+                        onTap: () => _selectDate(context, false),
+                      ),
+                      ListTile(
+                        title: Text(
+                            'Start Time: ${_startTime != null ? _startTime!.format(context) : 'Select Time'}'),
+                        trailing: Icon(Icons.access_time),
+                        onTap: () => _selectTime(context, true),
+                      ),
+                      ListTile(
+                        title: Text(
+                            'End Time: ${_endTime != null ? _endTime!.format(context) : 'Select Time'}'),
+                        trailing: Icon(Icons.access_time),
+                        onTap: () => _selectTime(context, false),
+                      ),
+                    ],
                   ),
                 ),
               ),
+
               SizedBox(
                 height: 16,
               ),

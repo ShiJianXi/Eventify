@@ -103,8 +103,6 @@ class _HomePageState extends State<HomePage> {
               fontSize: 15.0,
             ),
             ),
-            //For testing not used anymore
-            //event_display(title: "random title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20"),
 
             //Displaying current event in the home page, by taking data from firebasestore
             Expanded(
@@ -126,7 +124,15 @@ class _HomePageState extends State<HomePage> {
                     return Event_display(
                       title: data['title'] ?? '',
                       description: data['description'] ?? '',
-                      time: data['time'] ?? '',
+                      //time: data['time'] ?? '',
+                      startDate: data['startDate'] != null
+                          ? (data['startDate'] as Timestamp).toDate().toString().split(' ')[0]
+                          : '',
+                      endDate: data['endDate'] != null
+                          ? (data['endDate'] as Timestamp).toDate().toString().split(' ')[0]
+                          : '',
+                      startTime: data['startTime'] ?? '',
+                      endTime: data['endTime'] ?? '',
                       thumbnailUrl: data['thumbnailUrl'] ?? '',
                       location: data['location'] ?? '',
                       price: data['price'] ?? '',
