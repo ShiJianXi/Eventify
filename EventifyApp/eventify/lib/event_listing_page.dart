@@ -1,9 +1,9 @@
-
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 //UI to be improved in the future, and also instead of using image url, might change to using image from gallery or camera
 //Image from galley implemented, need improve UI next
@@ -24,8 +24,11 @@ class _EventListingPageState extends State<EventListingPage> {
   final _priceController = TextEditingController();
   File? _image;
 
+
+  //Allow users to pick image from gallery
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -33,16 +36,27 @@ class _EventListingPageState extends State<EventListingPage> {
     }
   }
 
+  //Allow users to use image from camera
+  Future<void> _pickImageFromCamera() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
 
   Future<String> _uploadImage(File image) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final imagesRef = storageRef.child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+    final imagesRef =
+        storageRef.child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
     final uploadTask = imagesRef.putFile(image);
     final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();
   }
-  
-    Future<void> _addEvent() async {
+
+  Future<void> _addEvent() async {
     if (_formKey.currentState!.validate() && _image != null) {
       try {
         final imageUrl = await _uploadImage(_image!);
@@ -55,16 +69,19 @@ class _EventListingPageState extends State<EventListingPage> {
           'thumbnailUrl': imageUrl,
           'timestamp': FieldValue.serverTimestamp(),
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Event added successfully')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Event added successfully')));
         _formKey.currentState!.reset();
         setState(() {
           _image = null;
         });
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to add event: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed to add event: $e')));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please fill all fields and pick an image')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please fill all fields and pick an image')));
     }
   }
 
@@ -80,63 +97,148 @@ class _EventListingPageState extends State<EventListingPage> {
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a title';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
               ),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
+              SizedBox(height: 16),
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 150,
+                    child: TextFormField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: null,
+                      expands: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a description';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
               ),
-              TextFormField(
-                controller: _timeController,
-                decoration: InputDecoration(labelText: 'Time'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a time';
-                  }
-                  return null;
-                },
+              SizedBox(
+                height: 16,
               ),
-              TextFormField(
-                controller: _locationController,
-                decoration: InputDecoration(labelText: 'Location'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a location';
-                  }
-                  return null;
-                },
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _timeController,
+                    decoration: InputDecoration(
+                      labelText: 'Time',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a time';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
               ),
-              TextFormField(
-                controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a price';
-                  }
-                  return null;
-                },
+              SizedBox(
+                height: 16,
               ),
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _locationController,
+                    decoration: InputDecoration(
+                      labelText: 'Location',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a location';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _priceController,
+                    decoration: InputDecoration(
+                      labelText: 'Price',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a price';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              _image == null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: _pickImage,
+                          icon: Icon(Icons.photo),
+                          label: Text('Pick from Gallery'),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: _pickImageFromCamera,
+                          icon: Icon(Icons.camera),
+                          label: Text('Capture Image'),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Image.file(_image!),
+                        TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              _image = null;
+                            });
+                          },
+                          icon: Icon(Icons.remove_circle),
+                          label: Text('Remove Image'),
+                        ),
+                      ],
+                    ),
               SizedBox(height: 20),
-              _image == null ? TextButton(
-                onPressed: _pickImage,
-                child: Text('Pick Image from Gallery'),
-                )
-                : Image.file(_image!),
-
               ElevatedButton(
                 onPressed: _addEvent,
                 child: Text('Add Event'),
@@ -148,4 +250,3 @@ class _EventListingPageState extends State<EventListingPage> {
     );
   }
 }
-
