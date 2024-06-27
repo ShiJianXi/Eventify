@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+//import 'package:eventify/event_details_page.dart';
 
 import 'app_state.dart'; // new
 // import 'guest_book.dart';

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//import 'package:go_router/go_router.dart';
+import 'event_details_page.dart';
 //Features to be implemented: event on click leads to event detail page
 
 class Event_display extends StatelessWidget {
@@ -28,7 +30,25 @@ class Event_display extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context, MaterialPageRoute(
+            builder: (context) => EventDetailsPage(
+              title: title, 
+              description: description, 
+              startDate: startDate, 
+              endDate: endDate, 
+              startTime: startTime, 
+              endTime: endTime, 
+              thumbnailUrl: thumbnailUrl, 
+              location: location, 
+              price: price,
+              ),
+              ),
+              );
+      },
+    child:  Container(
       margin: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
       width: MediaQuery.of(context).size.width,
       height: 180,
@@ -152,6 +172,7 @@ class Event_display extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
