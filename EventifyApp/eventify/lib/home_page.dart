@@ -35,6 +35,9 @@ class _HomePageState extends State<HomePage> {
     '/event_listing',
   ];
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,12 +82,17 @@ class _HomePageState extends State<HomePage> {
                       ),
                       prefixIcon: Icon(Icons.search),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value.toLowerCase();
+                      });
+                    },
                   ),
                 ),
                 SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle filter button press
+                    // Handle filter button press, may not be needed
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.blue,
@@ -120,12 +128,15 @@ class _HomePageState extends State<HomePage> {
                   }
                   //this print is for debugging, remove before production
                   print('data fetched successfully');
-                  var events = snapshot.data!.docs.map((doc) {
+                  var events = snapshot.data!.docs.where((doc) {
+                    var data = doc.data() as Map<String, dynamic>;
+                    var title = data['title']?.toString().toLowerCase() ?? '';
+                    return title.contains(_searchQuery);
+                  }).map((doc) {
                     var data = doc.data() as Map<String, dynamic>;
                     return Event_display(
                       title: data['title'] ?? '',
                       description: data['description'] ?? '',
-                      //time: data['time'] ?? '',
                       startDate: data['startDate'] != null
                           ? (data['startDate'] as Timestamp).toDate().toString().split(' ')[0]
                           : '',

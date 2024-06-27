@@ -50,7 +50,8 @@ class _EventListingPageState extends State<EventListingPage> {
       });
     }
   }
-
+  
+  //Upload image to firebase storage and get the download URL
   Future<String> _uploadImage(File image) async {
     final storageRef = FirebaseStorage.instance.ref();
     final imagesRef =
@@ -97,6 +98,7 @@ class _EventListingPageState extends State<EventListingPage> {
     }
   }
 
+  //Allow users to select Date using a calendar widget
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -115,6 +117,7 @@ class _EventListingPageState extends State<EventListingPage> {
     }
   }
 
+  //Allow users to select timing using a clock widget
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -258,6 +261,11 @@ class _EventListingPageState extends State<EventListingPage> {
                     controller: _priceController,
                     decoration: InputDecoration(
                       labelText: 'Price',
+                      prefix: Text('\$',
+                      style: TextStyle(
+                        color: Color.fromARGB(190, 0, 0, 0),
+                      ),
+                      ),
                       border: OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -281,13 +289,14 @@ class _EventListingPageState extends State<EventListingPage> {
                         ),
                         ElevatedButton.icon(
                           onPressed: _pickImageFromCamera,
-                          icon: Icon(Icons.camera),
-                          label: Text('Capture Image'),
+                          icon: Icon(Icons.camera_alt),
+                          label: Text('Camera'),
                         ),
                       ],
                     )
                   : Column(
                       children: [
+                        //Allow users to remove pictures and set image state back to null
                         Image.file(_image!),
                         TextButton.icon(
                           onPressed: () {

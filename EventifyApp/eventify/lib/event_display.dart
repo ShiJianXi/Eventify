@@ -33,146 +33,147 @@ class Event_display extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          context, MaterialPageRoute(
+          context,
+          MaterialPageRoute(
             builder: (context) => EventDetailsPage(
-              title: title, 
-              description: description, 
-              startDate: startDate, 
-              endDate: endDate, 
-              startTime: startTime, 
-              endTime: endTime, 
-              thumbnailUrl: thumbnailUrl, 
-              location: location, 
+              title: title,
+              description: description,
+              startDate: startDate,
+              endDate: endDate,
+              startTime: startTime,
+              endTime: endTime,
+              thumbnailUrl: thumbnailUrl,
+              location: location,
               price: price,
-              ),
-              ),
-              );
-      },
-    child:  Container(
-      margin: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-      width: MediaQuery.of(context).size.width,
-      height: 180,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.6),
-            offset: Offset(
-              0.0,
-              10.0,
             ),
-            blurRadius: 10.0,
-            spreadRadius: -6.0,
           ),
-        ],
-        image: DecorationImage(
-          colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.35),
-            BlendMode.multiply,
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+        width: MediaQuery.of(context).size.width,
+        height: 180,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.6),
+              offset: Offset(
+                0.0,
+                10.0,
+              ),
+              blurRadius: 10.0,
+              spreadRadius: -6.0,
+            ),
+          ],
+          image: DecorationImage(
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.35),
+              BlendMode.multiply,
+            ),
+            image: NetworkImage(thumbnailUrl),
+            fit: BoxFit.cover,
           ),
-          image: NetworkImage(thumbnailUrl),
-          fit: BoxFit.cover,
+        ),
+        child: Stack(
+          children: [
+            Align(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              alignment: Alignment.center,
+            ),
+            Align(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.location_city,
+                          color: Colors.yellow,
+                          size: 18,
+                        ),
+                        SizedBox(width: 7),
+                        Text(
+                          location,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          color: Colors.yellow,
+                          size: 18,
+                        ),
+                        SizedBox(width: 7),
+                        Text(
+                          '$startDate - $endDate',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.schedule,
+                          color: Colors.yellow,
+                          size: 18,
+                        ),
+                        SizedBox(width: 7),
+                        Text(
+                          '$startTime - $endTime',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              alignment: Alignment.bottomLeft,
+            ),
+          ],
         ),
       ),
-      child: Stack(
-        children: [
-          Align(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            alignment: Alignment.center,
-          ),
-          Align(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.location_city,
-                        color: Colors.yellow,
-                        size: 18,
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        location,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_today,
-                        color: Colors.yellow,
-                        size: 18,
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        '$startDate - $endDate',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.schedule,
-                        color: Colors.yellow,
-                        size: 18,
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        '$startTime - $endTime',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            alignment: Alignment.bottomLeft,
-          ),
-        ],
-      ),
-    ),
     );
   }
 }
