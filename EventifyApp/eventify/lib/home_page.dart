@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
     '/event_listing',
   ];
 
-  final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -82,8 +81,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       prefixIcon: Icon(Icons.search),
                     ),
+                    //Search for events through their titles
                     onChanged: (value) {
                       setState(() {
+                        //Convert event titles to lower case for ease of search
                         _searchQuery = value.toLowerCase();
                       });
                     },
@@ -128,8 +129,10 @@ class _HomePageState extends State<HomePage> {
                   }
                   //this print is for debugging, remove before production
                   print('data fetched successfully');
+                  //Search for events with the similar titles
                   var events = snapshot.data!.docs.where((doc) {
                     var data = doc.data() as Map<String, dynamic>;
+                    //Convert event titles to lower case for ease of search
                     var title = data['title']?.toString().toLowerCase() ?? '';
                     return title.contains(_searchQuery);
                   }).map((doc) {
