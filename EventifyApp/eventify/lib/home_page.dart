@@ -4,7 +4,6 @@
 
 //import 'package:eventify/event_listing_page.dart';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventify/event_display.dart';
 import 'package:firebase_auth/firebase_auth.dart'
@@ -26,12 +25,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _currentIndex = 0;
 
   List<String> body = const [
     '/',
     '/event_listing',
+    '/chat',
   ];
 
   @override
@@ -96,12 +95,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Text(
+            const Text(
               "Current Events",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15.0,
-            ),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15.0,
+              ),
             ),
             //For testing not used anymore
             //event_display(title: "random title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20"),
@@ -137,18 +136,22 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-        bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (int newIndex) {
           context.push(body[newIndex]);
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             label: 'Home',
             icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            label: 'EventListing',
+            label: 'Add Event',
+            icon: Icon(Icons.add),
+          ),
+          BottomNavigationBarItem(
+            label: 'Chat',
             icon: Icon(Icons.add),
           ),
         ],
