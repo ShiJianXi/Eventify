@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 //import 'package:eventify/event_details_page.dart';
-
 import 'app_state.dart'; // new
 // import 'guest_book.dart';
 import 'src/authentication.dart'; // new
@@ -33,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   List<String> body = const [
     '/',
     '/event_listing',
+    '/calendar',
   ];
 
   String _searchQuery = '';
@@ -175,6 +175,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             label: 'Add Event',
             icon: Icon(Icons.add),
+          ),
+          BottomNavigationBarItem(
+            label: 'Calendar',
+            icon: Icon(Icons.calendar_month),
           ),
         ],
       ),
