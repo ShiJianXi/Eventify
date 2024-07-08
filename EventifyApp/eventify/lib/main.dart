@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:eventify/calendar.dart';
 import 'package:eventify/event_listing_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -111,6 +112,10 @@ final _router = GoRouter(
         GoRoute(
           path: 'event_listing',
           builder:(context, state) => const EventListingPage(),
+        ),
+        GoRoute(
+          path: 'calendar',
+          builder:(context, state) => const Calendar(),
         ),
       ],
     ),
