@@ -6,6 +6,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventify/event_display.dart';
+import 'package:eventify/service/firebase_firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
@@ -22,6 +23,21 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createState() => _HomePageState();
+}
+
+// Need to verify
+Future<void> _updateFirebaseIfLoggedIn() async {
+  final user = FirebaseAuth.instance.currentUser;
+
+  if (user != null) {
+    // User is logged in, perform Firebase update
+    await FirebaseFirestoreService.updateUserData(
+      {'lastActive': DateTime.now()},
+    );
+  } else {
+    // User is not logged in, handle accordingly
+    print('User is not logged in');
+  }
 }
 
 class _HomePageState extends State<HomePage> {
@@ -55,86 +71,95 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
+      body: FutureBuilder(
+        // Newly added
+        future: _updateFirebaseIfLoggedIn(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
               children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search...',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide.none,
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0.0,
+                            horizontal: 16.0,
+                          ),
+                          prefixIcon: Icon(Icons.search),
+                        ),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 0.0,
-                        horizontal: 16.0,
-                      ),
-                      prefixIcon: Icon(Icons.search),
                     ),
+                    SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle filter button press
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      child: Icon(Icons.filter_list),
+                    ),
+                  ],
+                ),
+                const Text(
+                  "Current Events",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
                   ),
                 ),
-                SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle filter button press
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.blue,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                //For testing not used anymore
+                //event_display(title: "random title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20"),
+
+                //Displaying current event in the home page, by taking data from firebasestore
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('events')
+                        .orderBy('timestamp', descending: true)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      var events = snapshot.data!.docs.map((doc) {
+                        var data = doc.data() as Map<String, dynamic>;
+                        return Event_display(
+                          title: data['title'] ?? '',
+                          description: data['description'] ?? '',
+                          time: data['time'] ?? '',
+                          thumbnailUrl: data['thumbnailUrl'] ?? '',
+                          location: data['location'] ?? '',
+                          price: data['price'] ?? '',
+                        );
+                      }).toList();
+                      return ListView(
+                        children: events,
+                      );
+                    },
                   ),
-                  child: Icon(Icons.filter_list),
                 ),
               ],
             ),
-            const Text(
-              "Current Events",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15.0,
-              ),
-            ),
-            //For testing not used anymore
-            //event_display(title: "random title", description: "description", time: "1hr", thumbnailUrl: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1687772421/k24borysizkkmpszrhix.jpg", location: "Singapore", price: "20"),
-
-            //Displaying current event in the home page, by taking data from firebasestore
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('events')
-                    .orderBy('timestamp', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  var events = snapshot.data!.docs.map((doc) {
-                    var data = doc.data() as Map<String, dynamic>;
-                    return Event_display(
-                      title: data['title'] ?? '',
-                      description: data['description'] ?? '',
-                      time: data['time'] ?? '',
-                      thumbnailUrl: data['thumbnailUrl'] ?? '',
-                      location: data['location'] ?? '',
-                      price: data['price'] ?? '',
-                    );
-                  }).toList();
-                  return ListView(
-                    children: events,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -152,7 +177,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             label: 'Chat',
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.chat_bubble),
           ),
         ],
       ),

@@ -10,7 +10,6 @@ class Event_display extends StatelessWidget {
   final String location;
   final String price;
 
-
   Event_display({
     required this.title,
     required this.description,
@@ -33,7 +32,7 @@ class Event_display extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.6),
-            offset: Offset(
+            offset: const Offset(
               0.0,
               10.0,
             ),
@@ -55,8 +54,7 @@ class Event_display extends StatelessWidget {
           Align(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: 
-              Align(
+              child: Align(
                 alignment: Alignment.topCenter,
                 child: Text(
                   title,
@@ -95,7 +93,7 @@ class Event_display extends StatelessWidget {
                       Text(
                         location,
                         style: TextStyle(color: Colors.white),
-                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -117,7 +115,7 @@ class Event_display extends StatelessWidget {
                       Text(
                         time,
                         style: TextStyle(color: Colors.white),
-                        ),
+                      ),
                     ],
                   ),
                 )

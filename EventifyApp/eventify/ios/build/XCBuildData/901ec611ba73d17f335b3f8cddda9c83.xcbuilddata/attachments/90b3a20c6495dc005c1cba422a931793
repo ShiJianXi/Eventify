@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/desktop_webview_auth-master.swiftconstvalues",
+    "dependencies" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/desktop_webview_auth-master.d",
+    "diagnostics" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/desktop_webview_auth-master.dia",
+    "emit-module-dependencies" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/desktop_webview_auth-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/desktop_webview_auth-master-emit-module.dia",
+    "swift-dependencies" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/desktop_webview_auth-master.swiftdeps"
+  },
+  "/Users/donavan/.pub-cache/hosted/pub.dev/desktop_webview_auth-0.0.15/ios/Classes/SwiftDesktopWebviewAuthPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/SwiftDesktopWebviewAuthPlugin.o",
+    "llvm-bc" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/SwiftDesktopWebviewAuthPlugin.bc",
+    "object" : "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/desktop_webview_auth.build/Objects-normal/arm64/SwiftDesktopWebviewAuthPlugin.o"
+  }
+}

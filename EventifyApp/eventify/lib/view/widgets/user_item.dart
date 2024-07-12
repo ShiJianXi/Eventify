@@ -1,4 +1,5 @@
 import 'package:eventify/model/user.dart';
+import 'package:eventify/view/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -13,7 +14,10 @@ class UserItem extends StatefulWidget {
 
 class _UserItemState extends State<UserItem> {
   @override
-  Widget build(BuildContext context) => ListTile(
+  Widget build(BuildContext context) => GestureDetector(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => ChatScreen(userId: widget.user.uid))),
+      child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Stack(
           alignment: Alignment.bottomRight,
@@ -49,5 +53,5 @@ class _UserItemState extends State<UserItem> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-      );
+      ));
 }
