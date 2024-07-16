@@ -91,9 +91,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(width: 8),
-                ElevatedButton(
+                //Button to push to my events page
+                ElevatedButton.icon(
                   onPressed: () {
-                    // Handle filter button press, may not be needed
+                    context.push('/my_events');
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.blue,
@@ -102,7 +103,10 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Icon(Icons.filter_list),
+                  icon: Icon(Icons.my_library_books),
+                  label: Text(
+                    'My Events',
+                  ),
                 ),
               ],
             ),

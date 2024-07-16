@@ -4,6 +4,7 @@
 
 import 'package:eventify/calendar.dart';
 import 'package:eventify/event_listing_page.dart';
+import 'package:eventify/my_events.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,10 @@ final _router = GoRouter(
         GoRoute(
           path: 'calendar',
           builder:(context, state) => const Calendar(),
+        ),
+        GoRoute(
+          path: 'my_events',
+          builder:(context, state) => const MyEventsPage(),
         ),
       ],
     ),
