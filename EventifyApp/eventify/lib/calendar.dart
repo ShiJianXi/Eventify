@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'event_display.dart';
 
-
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
 
@@ -32,14 +31,12 @@ class _CalendarState extends State<Calendar> {
     super.initState();
     _fetchEvents();
   }
+
   //Function to fetch events from Firestore and organise them by date
   Future<void> _fetchEvents() async {
-
     // Fetch all documents from the 'events' collection in Firestore.
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('events').get();
-
-
     Map<DateTime, List> events = {};
 
     // Loop through each document fetched from Firestore.
@@ -53,6 +50,7 @@ class _CalendarState extends State<Calendar> {
       //Extract only the date part of the DateTime object for it to display accurately on the calendar
       DateTime eventDate = DateTime(startDate.year, startDate.month, startDate.day);
 
+
       // Initialise the list for this date if it is not already initialised
       if (events[eventDate] == null) {
         events[eventDate] = [];
@@ -65,7 +63,6 @@ class _CalendarState extends State<Calendar> {
     setState(() {
       _events = events;
     });
-
   }
 
   // Function to get events for a specific day
@@ -124,7 +121,6 @@ class _CalendarState extends State<Calendar> {
 
   // To build the event list for the selected day
   Widget _buildEventList() {
-    
     //Get the events for the selected day
     List events = _getEventsForDay(_selectedDay);
 
