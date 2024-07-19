@@ -1,5 +1,4 @@
 // chat.dart
-import 'package:eventify/main.dart';
 import 'package:eventify/model/user.dart';
 import 'package:eventify/service/firebase_firestore_service.dart';
 import 'package:eventify/view/screens/search_screen.dart';
@@ -11,7 +10,7 @@ import 'package:eventify/view/widgets/user_item.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();

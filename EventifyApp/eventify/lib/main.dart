@@ -1,12 +1,7 @@
-// Copyright 2022 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventify/app_state.dart';
 import 'package:eventify/chat.dart';
 import 'package:eventify/event_listing_page.dart';
 import 'package:eventify/provider/firebase_provider.dart';
-import 'package:eventify/service/firebase_firestore_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'app_state.dart';
 import 'home_page.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'firebase_options.dart';
 
@@ -37,14 +30,10 @@ Future<void> main() async {
   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
 
-  runApp(const App());
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // runApp(ChangeNotifierProvider(
-  //   create: (context) => ApplicationState(),
-  //   builder: ((context, child) => const App()),
-  // ));
-  // //runApp(const App());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const App()),
+  ));
 }
 
 final _router = GoRouter(
@@ -150,33 +139,69 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class App extends StatelessWidget {
   const App({super.key});
 
-  // get mainColor => null;
-
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (_) => FirebaseProvider(),
-        child: MaterialApp(
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20),
-                    minimumSize: const Size.fromHeight(52),
-                    backgroundColor: Colors.yellow),
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => FirebaseProvider(),
+      child: MaterialApp.router(
+        title: '',
+        theme: ThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 20),
+              minimumSize: const Size.fromHeight(52),
+              backgroundColor: Colors.yellow,
+            ),
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          buttonTheme: Theme.of(context).buttonTheme.copyWith(
+                highlightColor: Colors.deepPurple,
               ),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                titleTextStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
-          home: const ChatPage(),
+          primarySwatch: Colors.deepPurple,
+          textTheme: GoogleFonts.robotoTextTheme(
+            Theme.of(context).textTheme,
+          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          useMaterial3: true,
         ),
-      );
+        routerConfig: _router,
+        debugShowCheckedModeBanner: false,
+      ),
+    );
+  }
+  // @override
+  // Widget build(BuildContext context) => ChangeNotifierProvider(
+  //       create: (_) => FirebaseProvider(),
+  //       child: MaterialApp(
+  //         navigatorKey: navigatorKey,
+  //         debugShowCheckedModeBanner: false,
+  //         theme: ThemeData(
+  //             elevatedButtonTheme: ElevatedButtonThemeData(
+  //               style: ElevatedButton.styleFrom(
+  //                   textStyle: const TextStyle(fontSize: 20),
+  //                   minimumSize: const Size.fromHeight(52),
+  //                   backgroundColor: Colors.yellow),
+  //             ),
+  //             appBarTheme: const AppBarTheme(
+  //               backgroundColor: Colors.transparent,
+  //               elevation: 0,
+  //               titleTextStyle: TextStyle(
+  //                 color: Colors.black,
+  //                 fontSize: 35,
+  //                 fontWeight: FontWeight.bold,
+  //               ),
+  //             )),
+  //         home: const ChatPage(),
+  //       ),
+  //     );
   // Widget build(BuildContext context) {
   //   return MaterialApp.router(
   //     title: '',
@@ -196,21 +221,3 @@ class App extends StatelessWidget {
   //   );
   // }
 }
-
-// class MainPage extends StatelessWidget {
-//   const MainPage({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) => Scaffold(
-//         body: StreamBuilder<User?>(
-//           stream: FirebaseAuth.instance.authStateChanges(),
-//           builder: (context, snapshot) {
-//             if (snapshot.hasData) {
-//               return const HomePage();
-//             } else {
-//               return const HomePage();
-//             }
-//           },
-//         ),
-//       );
-// }

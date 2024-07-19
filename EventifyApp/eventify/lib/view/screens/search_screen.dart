@@ -4,13 +4,11 @@ import 'package:eventify/view/widgets/custom_text_form_field.dart';
 import 'package:eventify/view/widgets/empty_widget.dart';
 import 'package:eventify/view/widgets/user_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class UsersSearchScreen extends StatefulWidget {
-  const UsersSearchScreen({Key? key}) : super(key: key);
+  const UsersSearchScreen({super.key});
 
   @override
   State<UsersSearchScreen> createState() => _UsersSearchScreenState();

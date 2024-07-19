@@ -31,7 +31,7 @@ class _EventListingPageState extends State<EventListingPage> {
         'timestamp': FieldValue.serverTimestamp(),
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Event added successfully!'),
       ));
       _formKey.currentState!.reset();
@@ -42,7 +42,7 @@ class _EventListingPageState extends State<EventListingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Listing'),
+        title: const Text('Event Listing'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,7 +52,7 @@ class _EventListingPageState extends State<EventListingPage> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a title';
@@ -62,7 +62,7 @@ class _EventListingPageState extends State<EventListingPage> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a description';
@@ -72,7 +72,7 @@ class _EventListingPageState extends State<EventListingPage> {
               ),
               TextFormField(
                 controller: _timeController,
-                decoration: InputDecoration(labelText: 'Time'),
+                decoration: const InputDecoration(labelText: 'Time'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a time';
@@ -82,7 +82,7 @@ class _EventListingPageState extends State<EventListingPage> {
               ),
               TextFormField(
                 controller: _thumbnailUrlController,
-                decoration: InputDecoration(labelText: 'Thumbnail URL'),
+                decoration: const InputDecoration(labelText: 'Thumbnail URL'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a thumbnail URL';
@@ -92,7 +92,7 @@ class _EventListingPageState extends State<EventListingPage> {
               ),
               TextFormField(
                 controller: _locationController,
-                decoration: InputDecoration(labelText: 'Location'),
+                decoration: const InputDecoration(labelText: 'Location'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a location';
@@ -102,7 +102,7 @@ class _EventListingPageState extends State<EventListingPage> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price'),
+                decoration: const InputDecoration(labelText: 'Price'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a price';
@@ -110,10 +110,10 @@ class _EventListingPageState extends State<EventListingPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _addEvent,
-                child: Text('Add Event'),
+                child: const Text('Add Event'),
               ),
             ],
           ),

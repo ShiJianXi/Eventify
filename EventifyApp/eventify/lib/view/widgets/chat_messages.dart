@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'message_bubble.dart';
 import '../../provider/firebase_provider.dart';
 import 'empty_widget.dart';
-import 'message_bubble.dart';
 
 class ChatMessages extends StatelessWidget {
   ChatMessages({super.key, required this.receiverId});

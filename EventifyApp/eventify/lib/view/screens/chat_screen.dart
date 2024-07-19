@@ -1,4 +1,3 @@
-import 'package:eventify/model/user.dart';
 import 'package:eventify/provider/firebase_provider.dart';
 import 'package:eventify/view/widgets/chat_messages.dart';
 import 'package:eventify/view/widgets/chat_text_field.dart';
