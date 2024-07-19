@@ -29,6 +29,8 @@ class _HomePageState extends State<HomePage> {
     '/chat',
   ];
 
+  String _searchQuery = '';
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -105,8 +107,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       prefixIcon: const Icon(Icons.search),
                     ),
+//                     onChanged: (value) {
+//                       setState(() {
+                    //Search for events through their titles
                     onChanged: (value) {
                       setState(() {
+                        //Convert event titles to lower case for ease of search
                         _searchQuery = value.toLowerCase();
                       });
                     },
@@ -126,6 +132,16 @@ class _HomePageState extends State<HomePage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
+//                 SizedBox(width: 8),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     // Handle filter button press, may not be needed
+//                   },
+//                   style: ElevatedButton.styleFrom(
+//                     foregroundColor: Colors.blue,
+//                     backgroundColor: Colors.white,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Icon(Icons.filter_list),
                   ),
@@ -141,6 +157,8 @@ class _HomePageState extends State<HomePage> {
                 fontSize: 15.0,
               ),
             ),
+
+            //Displaying current event in the home page, by taking data from firebasestore
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -149,10 +167,14 @@ class _HomePageState extends State<HomePage> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
+                    //this print is for debugging, remove before production
+                    print('No data available');
                     return Center(child: CircularProgressIndicator());
                   }
+                  //Search for events with the similar titles
                   var events = snapshot.data!.docs.where((doc) {
                     var data = doc.data() as Map<String, dynamic>;
+                    //Convert event titles to lower case for ease of search
                     var title = data['title']?.toString().toLowerCase() ?? '';
                     return title.contains(_searchQuery);
                   }).map((doc) {
@@ -161,16 +183,10 @@ class _HomePageState extends State<HomePage> {
                       title: data['title'] ?? '',
                       description: data['description'] ?? '',
                       startDate: data['startDate'] != null
-                          ? (data['startDate'] as Timestamp)
-                              .toDate()
-                              .toString()
-                              .split(' ')[0]
+                          ? (data['startDate'] as Timestamp).toDate().toString().split(' ')[0]
                           : '',
                       endDate: data['endDate'] != null
-                          ? (data['endDate'] as Timestamp)
-                              .toDate()
-                              .toString()
-                              .split(' ')[0]
+                          ? (data['endDate'] as Timestamp).toDate().toString().split(' ')[0]
                           : '',
                       startTime: data['startTime'] ?? '',
                       endTime: data['endTime'] ?? '',
@@ -210,10 +226,6 @@ class _HomePageState extends State<HomePage> {
             label: 'Calendar',
             icon: Icon(Icons.calendar_month),
           ),
-          // BottomNavigationBarItem(
-          //   label: 'Chat',
-          //   icon: Icon(Icons.chat_bubble),
-          // ),
         ],
       ),
     );

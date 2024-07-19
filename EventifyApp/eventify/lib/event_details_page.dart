@@ -46,36 +46,46 @@ class EventDetailsPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
-              Text(description),
-              SizedBox(height: 16),
-              Text(
-                'Date & Time',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text('From: $startDate at $startTime'),
-              Text('To: $endDate at $endTime'),
-              SizedBox(height: 16),
-              Text(
-                'Location',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text(location),
-              SizedBox(height: 16),
-              Text(
-                'Price',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('\$' + '$price'),
+                SizedBox(height: 8),
+                Text(description),
+        
+                SizedBox(height: 16),
+        
+                Text(
+                  'Date & Time',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  ),
+        
+                  SizedBox(height: 8),
+                  Text('From: $startDate at $startTime'),
+                  Text('To: $endDate at $endTime'),
+                  SizedBox(height: 16),
+                  Text(
+                    'Location',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(location),
+                  SizedBox(height: 16),
+        
+                  Text(
+                    'Price',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text('\$' + '$price'),
             ],
           ),
-        ),
+          ),
       ),
     );
   }

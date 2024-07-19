@@ -1,5 +1,6 @@
 import 'package:eventify/app_state.dart';
 import 'package:eventify/chat.dart';
+import 'package:eventify/calendar.dart';
 import 'package:eventify/event_listing_page.dart';
 import 'package:eventify/provider/firebase_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -128,6 +129,10 @@ final _router = GoRouter(
         GoRoute(
           path: 'chat',
           builder: (context, state) => const ChatPage(),
+        ),
+        GoRoute(
+          path: 'calendar',
+          builder:(context, state) => const Calendar(),
         ),
       ],
     ),

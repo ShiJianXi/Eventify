@@ -26,7 +26,7 @@ class _CalendarState extends State<Calendar> {
   // and the value is a list of events occurring on that day
   Map<DateTime, List> _events = {};
 
-  @override
+   @override
   void initState() {
     super.initState();
     _fetchEvents();
@@ -37,7 +37,6 @@ class _CalendarState extends State<Calendar> {
     // Fetch all documents from the 'events' collection in Firestore.
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('events').get();
-
     Map<DateTime, List> events = {};
 
     // Loop through each document fetched from Firestore.
@@ -49,8 +48,8 @@ class _CalendarState extends State<Calendar> {
       DateTime startDate = (data['startDate'] as Timestamp).toDate();
 
       //Extract only the date part of the DateTime object for it to display accurately on the calendar
-      DateTime eventDate =
-          DateTime(startDate.year, startDate.month, startDate.day);
+      DateTime eventDate = DateTime(startDate.year, startDate.month, startDate.day);
+
 
       // Initialise the list for this date if it is not already initialised
       if (events[eventDate] == null) {
@@ -139,16 +138,10 @@ class _CalendarState extends State<Calendar> {
           title: event['title'] ?? '',
           description: event['description'] ?? '',
           startDate: event['startDate'] != null
-              ? (event['startDate'] as Timestamp)
-                  .toDate()
-                  .toString()
-                  .split(' ')[0]
+              ? (event['startDate'] as Timestamp).toDate().toString().split(' ')[0]
               : '',
           endDate: event['endDate'] != null
-              ? (event['endDate'] as Timestamp)
-                  .toDate()
-                  .toString()
-                  .split(' ')[0]
+              ? (event['endDate'] as Timestamp).toDate().toString().split(' ')[0]
               : '',
           startTime: event['startTime'] ?? '',
           endTime: event['endTime'] ?? '',
