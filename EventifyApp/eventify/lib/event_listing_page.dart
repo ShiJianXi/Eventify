@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +78,8 @@ class _EventListingPageState extends State<EventListingPage> {
           'price': _priceController.text,
           'thumbnailUrl': imageUrl,
           'timestamp': FieldValue.serverTimestamp(),
+          //Store userID so that we know who creates the event
+          'userId': FirebaseAuth.instance.currentUser!.uid,
         });
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Event added successfully')));
