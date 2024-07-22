@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Release-iphoneos/FirebaseStorage/FirebaseStorage.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/FirebaseStorage.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Release-iphoneos/FirebaseStorage/FirebaseStorage.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "FirebaseStorage-Swift.h",
+      'external-contents': "/Users/donavan/Documents/Developments/Mobile App/Eventify App/Eventify/EventifyApp/eventify/ios/build/Pods.build/Release-iphoneos/FirebaseStorage.build/unextended-interface-header.h",
+    }]
+    }]
+}

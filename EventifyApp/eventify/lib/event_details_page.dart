@@ -1,10 +1,8 @@
 //This page shows the details of the specific event when the users clicks on the event on the home page
 
-
 import 'package:flutter/material.dart';
 
 class EventDetailsPage extends StatelessWidget {
-
   final String title;
   final String description;
   final String startDate;
@@ -33,7 +31,6 @@ class EventDetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('$title details'),
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -49,7 +46,6 @@ class EventDetailsPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-        
                 SizedBox(height: 8),
                 Text(description),
         
@@ -94,4 +90,3 @@ class EventDetailsPage extends StatelessWidget {
     );
   }
 }
-
