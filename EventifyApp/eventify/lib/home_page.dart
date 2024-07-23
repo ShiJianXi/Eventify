@@ -118,34 +118,20 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-//<<<<<<< JXchanges
-                SizedBox(width: 8),
-                //Button to push to my events page
-                ElevatedButton.icon(
-                  onPressed: () {
-                    context.push('/my_events');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.blue,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-//=======
-                      // JXchanges conflict
-//                 const SizedBox(width: 8),
-//                 SizedBox(
-//                   width: 48,
-//                   height: 52, // Match the minimum height specified in the theme
-//                   child: ElevatedButton(
-//                     onPressed: () {
-//                       // Handle filter button press, may not be needed
-//                     },
-//                     style: ElevatedButton.styleFrom(
-//                       foregroundColor: Colors.blue,
-//                       backgroundColor: Colors.white,
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(8.0),
-//                       ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: 48,
+                  height: 52, // Match the minimum height specified in the theme
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle filter button press, may not be needed
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.blue,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
 //                 SizedBox(width: 8),
 //                 ElevatedButton(
 //                   onPressed: () {
@@ -156,17 +142,9 @@ class _HomePageState extends State<HomePage> {
 //                     backgroundColor: Colors.white,
 //                     shape: RoundedRectangleBorder(
 //                       borderRadius: BorderRadius.circular(8.0),
-//>>>>>>> main
                     ),
                     child: const Icon(Icons.filter_list),
                   ),
-//<<<<<<< JXchanges
-                  icon: Icon(Icons.my_library_books),
-                  label: Text(
-                    'My Events',
-                  ),
-//=======
-//>>>>>>> main
                 ),
               ],
             ),
