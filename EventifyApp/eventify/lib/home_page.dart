@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 Flexible(
-                  flex: 6,
+                  flex: 9,
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search...',
@@ -141,15 +141,15 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Transform.scale(
-                            scale: 0.7, // Scale down the icon size
+                            scale: 1, // Scale down the icon size
                             child: const Icon(Icons.my_library_books),
                           ),
                           // SizedBox(
                           //     width:
                           //         2), // Add some space between the icon and the text
                           Transform.scale(
-                            scale: 0.7, // Scale down the text size
-                            child: const Text('My Events'),
+                            scale: 1, // Scale down the text size
+                            child: const Text(' My Events'),
                           ),
                         ],
                       ),
