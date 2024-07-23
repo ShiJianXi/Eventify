@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _EventListingPageState extends State<EventListingPage> {
       });
     }
   }
-  
+
   //Upload image to firebase storage and get the download URL
   Future<String> _uploadImage(File image) async {
     final storageRef = FirebaseStorage.instance.ref();
@@ -77,9 +78,11 @@ class _EventListingPageState extends State<EventListingPage> {
           'price': _priceController.text,
           'thumbnailUrl': imageUrl,
           'timestamp': FieldValue.serverTimestamp(),
+          //Store userID so that we know who creates the event
+          'userId': FirebaseAuth.instance.currentUser!.uid,
         });
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Event added successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Event added successfully')));
         _formKey.currentState!.reset();
         setState(() {
           _image = null;
@@ -93,8 +96,8 @@ class _EventListingPageState extends State<EventListingPage> {
             .showSnackBar(SnackBar(content: Text('Failed to add event: $e')));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please fill all fields and pick an image')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Please fill all fields and pick an image')));
     }
   }
 
@@ -217,7 +220,7 @@ class _EventListingPageState extends State<EventListingPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: _titleController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Title',
                       border: OutlineInputBorder(),
                     ),
@@ -230,16 +233,16 @@ class _EventListingPageState extends State<EventListingPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Card(
                 elevation: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
+                  child: SizedBox(
                     height: 150,
                     child: TextFormField(
                       controller: _descriptionController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Description',
                         border: OutlineInputBorder(),
                       ),
@@ -255,7 +258,7 @@ class _EventListingPageState extends State<EventListingPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Card(
@@ -267,25 +270,25 @@ class _EventListingPageState extends State<EventListingPage> {
                       ListTile(
                         title: Text(
                             'Start Date: ${_startDate != null ? DateFormat.yMd().format(_startDate!) : 'Select Date'}'),
-                        trailing: Icon(Icons.calendar_today),
+                        trailing: const Icon(Icons.calendar_today),
                         onTap: () => _selectDate(context, true),
                       ),
                       ListTile(
                         title: Text(
                             'End Date: ${_endDate != null ? DateFormat.yMd().format(_endDate!) : 'Select Date'}'),
-                        trailing: Icon(Icons.calendar_today),
+                        trailing: const Icon(Icons.calendar_today),
                         onTap: () => _selectDate(context, false),
                       ),
                       ListTile(
                         title: Text(
                             'Start Time: ${_startTime != null ? _startTime!.format(context) : 'Select Time'}'),
-                        trailing: Icon(Icons.access_time),
+                        trailing: const Icon(Icons.access_time),
                         onTap: () => _selectTime(context, true),
                       ),
                       ListTile(
                         title: Text(
                             'End Time: ${_endTime != null ? _endTime!.format(context) : 'Select Time'}'),
-                        trailing: Icon(Icons.access_time),
+                        trailing: const Icon(Icons.access_time),
                         onTap: () => _selectTime(context, false),
                       ),
                     ],
@@ -293,7 +296,7 @@ class _EventListingPageState extends State<EventListingPage> {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Card(
@@ -302,7 +305,7 @@ class _EventListingPageState extends State<EventListingPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: _locationController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Location',
                       border: OutlineInputBorder(),
                     ),
@@ -315,7 +318,7 @@ class _EventListingPageState extends State<EventListingPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Card(
@@ -324,12 +327,13 @@ class _EventListingPageState extends State<EventListingPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: _priceController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Price',
-                      prefix: Text('\$',
-                      style: TextStyle(
-                        color: Color.fromARGB(190, 0, 0, 0),
-                      ),
+                      prefix: Text(
+                        '\$',
+                        style: TextStyle(
+                          color: Color.fromARGB(190, 0, 0, 0),
+                        ),
                       ),
                       border: OutlineInputBorder(),
                     ),
@@ -342,20 +346,20 @@ class _EventListingPageState extends State<EventListingPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _image == null
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton.icon(
                           onPressed: _pickImage,
-                          icon: Icon(Icons.photo),
-                          label: Text('Pick from Gallery'),
+                          icon: const Icon(Icons.photo),
+                          label: const Text('Pick from Gallery'),
                         ),
                         ElevatedButton.icon(
                           onPressed: _pickImageFromCamera,
-                          icon: Icon(Icons.camera_alt),
-                          label: Text('Camera'),
+                          icon: const Icon(Icons.camera_alt),
+                          label: const Text('Camera'),
                         ),
                       ],
                     )
@@ -369,12 +373,12 @@ class _EventListingPageState extends State<EventListingPage> {
                               _image = null;
                             });
                           },
-                          icon: Icon(Icons.remove_circle),
-                          label: Text('Remove Image'),
+                          icon: const Icon(Icons.remove_circle),
+                          label: const Text('Remove Image'),
                         ),
                       ],
                     ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _addEvent,
                 child: const Text('Add Event'),

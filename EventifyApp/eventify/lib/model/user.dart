@@ -23,4 +23,13 @@ class UserModel {
         isOnline: json['isOnline'] ?? false,
         lastActive: json['lastActive'].toDate(),
       );
+
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'name': name,
+        'image': image,
+        'email': email,
+        'isOnline': isOnline,
+        'lastActive': lastActive,
+      };
 }

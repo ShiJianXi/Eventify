@@ -26,7 +26,7 @@ class _CalendarState extends State<Calendar> {
   // and the value is a list of events occurring on that day
   Map<DateTime, List> _events = {};
 
-   @override
+  @override
   void initState() {
     super.initState();
     _fetchEvents();
@@ -40,7 +40,7 @@ class _CalendarState extends State<Calendar> {
     Map<DateTime, List> events = {};
 
     // Loop through each document fetched from Firestore.
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       // Convert the document data to a map
       var data = doc.data() as Map<String, dynamic>;
 
@@ -48,8 +48,8 @@ class _CalendarState extends State<Calendar> {
       DateTime startDate = (data['startDate'] as Timestamp).toDate();
 
       //Extract only the date part of the DateTime object for it to display accurately on the calendar
-      DateTime eventDate = DateTime(startDate.year, startDate.month, startDate.day);
-
+      DateTime eventDate =
+          DateTime(startDate.year, startDate.month, startDate.day);
 
       // Initialise the list for this date if it is not already initialised
       if (events[eventDate] == null) {
@@ -57,7 +57,7 @@ class _CalendarState extends State<Calendar> {
       }
       // Add the event data to the list of events for this date
       events[eventDate]!.add(data);
-    });
+    }
 
     // Update the state with the fetched events and trigger a rebuild
     setState(() {
@@ -76,7 +76,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Calendar'),
+        title: const Text('Event Calendar'),
       ),
       body: Column(
         children: [
@@ -126,7 +126,7 @@ class _CalendarState extends State<Calendar> {
 
     // If there are no events, show a message
     if (events.isEmpty) {
-      return Center(child: Text('No events for this day.'));
+      return const Center(child: Text('No events for this day.'));
     }
 
     //Build a ListView to display the events
@@ -138,16 +138,23 @@ class _CalendarState extends State<Calendar> {
           title: event['title'] ?? '',
           description: event['description'] ?? '',
           startDate: event['startDate'] != null
-              ? (event['startDate'] as Timestamp).toDate().toString().split(' ')[0]
+              ? (event['startDate'] as Timestamp)
+                  .toDate()
+                  .toString()
+                  .split(' ')[0]
               : '',
           endDate: event['endDate'] != null
-              ? (event['endDate'] as Timestamp).toDate().toString().split(' ')[0]
+              ? (event['endDate'] as Timestamp)
+                  .toDate()
+                  .toString()
+                  .split(' ')[0]
               : '',
           startTime: event['startTime'] ?? '',
           endTime: event['endTime'] ?? '',
           thumbnailUrl: event['thumbnailUrl'] ?? '',
           location: event['location'] ?? '',
           price: event['price'] ?? '',
+          userId: event['userId'] ?? '',
         );
       },
     );

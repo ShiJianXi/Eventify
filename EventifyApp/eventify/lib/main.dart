@@ -2,7 +2,9 @@ import 'package:eventify/app_state.dart';
 import 'package:eventify/chat.dart';
 import 'package:eventify/calendar.dart';
 import 'package:eventify/event_listing_page.dart';
+import 'package:eventify/my_events.dart';
 import 'package:eventify/provider/firebase_provider.dart';
+import 'package:eventify/service/firebase_firestore_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +59,7 @@ final _router = GoRouter(
                   );
                   context.push(uri.toString());
                 })),
-                AuthStateChangeAction(((context, state) {
+                AuthStateChangeAction(((context, state) async {
                   final user = switch (state) {
                     SignedIn state => state.user,
                     UserCreated state => state.credential.user,
@@ -68,6 +70,13 @@ final _router = GoRouter(
                   }
                   if (state is UserCreated) {
                     user.updateDisplayName(user.email!.split('@')[0]);
+                    // New Change: Create user in Firestore
+                    await FirebaseFirestoreService.createUser(
+                      uid: user.uid,
+                      name: user.displayName ?? user.email!.split('@')[0],
+                      email: user.email!,
+                      image: 'eventify/assets/black_profilepic.jpg',
+                    );
                   }
                   if (!user.emailVerified) {
                     user.sendEmailVerification();
@@ -132,7 +141,11 @@ final _router = GoRouter(
         ),
         GoRoute(
           path: 'calendar',
-          builder:(context, state) => const Calendar(),
+          builder: (context, state) => const Calendar(),
+        ),
+        GoRoute(
+          path: 'my_events',
+          builder: (context, state) => const MyEventsPage(),
         ),
       ],
     ),

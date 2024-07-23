@@ -88,11 +88,11 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   MaterialPageRoute(builder: (_) => const UsersSearchScreen())),
               icon: const Icon(Icons.search, color: Colors.black),
             ),
-            IconButton(
-              // Try whether the following works
-              onPressed: () => FirebaseAuth.instance.signOut(),
-              icon: const Icon(Icons.logout, color: Colors.black),
-            ),
+            // IconButton(
+            //   // Try whether the following works
+            //   onPressed: () => FirebaseAuth.instance.signOut(),
+            //   icon: const Icon(Icons.logout, color: Colors.black),
+            // ),
           ],
         ),
         body: Consumer<FirebaseProvider>(builder: (context, value, child) {

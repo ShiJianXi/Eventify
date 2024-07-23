@@ -29,8 +29,6 @@ class _HomePageState extends State<HomePage> {
     '/chat',
   ];
 
-  String _searchQuery = '';
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -40,7 +38,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // Need to verify
   Future<void> _updateFirebaseIfLoggedIn() async {
     final user = FirebaseAuth.instance.currentUser;
 
@@ -85,13 +82,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
-                Expanded(
+                Flexible(
+                  flex: 6,
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search...',
@@ -119,37 +117,48 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                SizedBox(
-                  width: 48,
-                  height: 52, // Match the minimum height specified in the theme
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Handle filter button press, may not be needed
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.blue,
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Flexible(
+                  flex: 5,
+                  child: SizedBox(
+                    // SizedBox(
+                    // width: 60,
+                    height:
+                        52, // Match the minimum height specified in the theme
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.push('/my_events');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
-//                 SizedBox(width: 8),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     // Handle filter button press, may not be needed
-//                   },
-//                   style: ElevatedButton.styleFrom(
-//                     foregroundColor: Colors.blue,
-//                     backgroundColor: Colors.white,
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(8.0),
+                      // child: const Icon(Icons.filter_list),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Transform.scale(
+                            scale: 0.7, // Scale down the icon size
+                            child: const Icon(Icons.my_library_books),
+                          ),
+                          // SizedBox(
+                          //     width:
+                          //         2), // Add some space between the icon and the text
+                          Transform.scale(
+                            scale: 0.7, // Scale down the text size
+                            child: const Text('My Events'),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: const Icon(Icons.filter_list),
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-                height: 16), // Add some space between the row and the text
+            const SizedBox(height: 16),
             const Text(
               "Current Events",
               style: TextStyle(
@@ -168,8 +177,8 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     //this print is for debugging, remove before production
-                    print('No data available');
-                    return Center(child: CircularProgressIndicator());
+                    // print('No data available');
+                    return const Center(child: CircularProgressIndicator());
                   }
                   //Search for events with the similar titles
                   var events = snapshot.data!.docs.where((doc) {
@@ -183,16 +192,23 @@ class _HomePageState extends State<HomePage> {
                       title: data['title'] ?? '',
                       description: data['description'] ?? '',
                       startDate: data['startDate'] != null
-                          ? (data['startDate'] as Timestamp).toDate().toString().split(' ')[0]
+                          ? (data['startDate'] as Timestamp)
+                              .toDate()
+                              .toString()
+                              .split(' ')[0]
                           : '',
                       endDate: data['endDate'] != null
-                          ? (data['endDate'] as Timestamp).toDate().toString().split(' ')[0]
+                          ? (data['endDate'] as Timestamp)
+                              .toDate()
+                              .toString()
+                              .split(' ')[0]
                           : '',
                       startTime: data['startTime'] ?? '',
                       endTime: data['endTime'] ?? '',
                       thumbnailUrl: data['thumbnailUrl'] ?? '',
                       location: data['location'] ?? '',
                       price: data['price'] ?? '',
+                      userId: data['userId'] ?? '',
                     );
                   }).toList();
                   return ListView(

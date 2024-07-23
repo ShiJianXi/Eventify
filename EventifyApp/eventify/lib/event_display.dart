@@ -14,8 +14,10 @@ class Event_display extends StatelessWidget {
   final String thumbnailUrl;
   final String location;
   final String price;
+  final String userId;
 
-  Event_display({
+  const Event_display({
+    super.key,
     required this.title,
     required this.description,
     //required this.time,
@@ -26,6 +28,7 @@ class Event_display extends StatelessWidget {
     required this.thumbnailUrl,
     required this.location,
     required this.price,
+    required this.userId,
   });
 
   @override
@@ -45,12 +48,13 @@ class Event_display extends StatelessWidget {
               thumbnailUrl: thumbnailUrl,
               location: location,
               price: price,
+              userId: userId,
             ),
           ),
         );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
         width: MediaQuery.of(context).size.width,
         height: 180,
         decoration: BoxDecoration(
@@ -59,7 +63,7 @@ class Event_display extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.6),
-              offset: Offset(
+              offset: const Offset(
                 0.0,
                 10.0,
               ),
@@ -79,13 +83,14 @@ class Event_display extends StatelessWidget {
         child: Stack(
           children: [
             Align(
+              alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 19,
                     ),
@@ -95,81 +100,80 @@ class Event_display extends StatelessWidget {
                   ),
                 ),
               ),
-              alignment: Alignment.center,
             ),
             Align(
+              alignment: Alignment.bottomLeft,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(5),
-                    margin: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.4),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_city,
                           color: Colors.yellow,
                           size: 18,
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         Text(
                           location,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(5),
-                    margin: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.4),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.calendar_today,
                           color: Colors.yellow,
                           size: 18,
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         Text(
                           '$startDate - $endDate',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(5),
-                    margin: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.4),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.schedule,
                           color: Colors.yellow,
                           size: 18,
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         Text(
                           '$startTime - $endTime',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              alignment: Alignment.bottomLeft,
             ),
           ],
         ),

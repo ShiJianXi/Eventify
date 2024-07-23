@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../model/message.dart';
 import '../model/user.dart';
 import 'firebase_storage_service.dart';
@@ -8,39 +9,36 @@ import 'firebase_storage_service.dart';
 class FirebaseFirestoreService {
   static final firestore = FirebaseFirestore.instance;
 
-  // static Future<void> createUser({
-  //   required String name,
-  //   required String image,
-  //   required String email,
-  //   required String uid,
-  // }) async {
-  //   final user = UserModel(
-  //     uid: uid,
-  //     email: email,
-  //     name: name,
-  //     image: image,
-  //     isOnline: true,
-  //     lastActive: DateTime.now(),
-  //   );
+  static Future<void> createUser({
+    required String name,
+    required String image,
+    required String email,
+    required String uid,
+  }) async {
+    final user = UserModel(
+      uid: uid,
+      email: email,
+      name: name,
+      image: image,
+      isOnline: true,
+      lastActive: DateTime.now(),
+    );
 
-  //   await firestore
-  //       .collection('users')
-  //       .doc(uid)
-  //       .set(user.toJson());
-  // }
+    await firestore.collection('users').doc(uid).set(user.toJson());
+  }
 
   static Future<void> addTextMessage({
     required String content,
     required String receiverId,
   }) async {
     final message = Message(
-        content: content,
-        sentTime: DateTime.now(),
-        receiverId: receiverId,
-        messageType: MessageType.text,
-        senderId:
-            'E98tqyAjn1NAU110Y1y5rhXf4Ay1' //FirebaseAuth.instance.currentUser!.uid,
-        );
+      content: content,
+      sentTime: DateTime.now(),
+      receiverId: receiverId,
+      messageType: MessageType.text,
+      senderId: FirebaseAuth
+          .instance.currentUser!.uid, // 'E98tqyAjn1NAU110Y1y5rhXf4Ay1'
+    );
     await _addMessageToChat(receiverId, message);
   }
 
@@ -52,13 +50,13 @@ class FirebaseFirestoreService {
         file, 'images/chat/${DateTime.now()}');
 
     final message = Message(
-        content: image,
-        sentTime: DateTime.now(),
-        receiverId: receiverId,
-        messageType: MessageType.image,
-        senderId:
-            'E98tqyAjn1NAU110Y1y5rhXf4Ay1' //FirebaseAuth.instance.currentUser!.uid,
-        );
+      content: image,
+      sentTime: DateTime.now(),
+      receiverId: receiverId,
+      messageType: MessageType.image,
+      senderId: FirebaseAuth
+          .instance.currentUser!.uid, // 'E98tqyAjn1NAU110Y1y5rhXf4Ay1'
+    );
     await _addMessageToChat(receiverId, message);
   }
 
@@ -68,8 +66,8 @@ class FirebaseFirestoreService {
   ) async {
     await firestore
         .collection('users')
-        .doc(
-            'E98tqyAjn1NAU110Y1y5rhXf4Ay1') //Gotta use FirebaseAuth.instance.currentUser!.uid
+        .doc(FirebaseAuth
+            .instance.currentUser!.uid) // 'E98tqyAjn1NAU110Y1y5rhXf4Ay1'
         .collection('chat')
         .doc(receiverId)
         .collection('messages')
@@ -79,8 +77,8 @@ class FirebaseFirestoreService {
         .collection('users')
         .doc(receiverId)
         .collection('chat')
-        .doc(
-            'E98tqyAjn1NAU110Y1y5rhXf4Ay1') //Gotta use FirebaseAuth.instance.currentUser!.uid
+        .doc(FirebaseAuth
+            .instance.currentUser!.uid) // 'E98tqyAjn1NAU110Y1y5rhXf4Ay1'
         .collection('messages')
         .add(message.toJson());
   }
@@ -88,8 +86,8 @@ class FirebaseFirestoreService {
   static Future<void> updateUserData(Map<String, dynamic> data) async =>
       await firestore
           .collection('users')
-          .doc(
-              'E98tqyAjn1NAU110Y1y5rhXf4Ay1') //FirebaseAuth.instance.currentUser!.uid
+          .doc(FirebaseAuth
+              .instance.currentUser!.uid) // 'E98tqyAjn1NAU110Y1y5rhXf4Ay1'
           .update(data);
 
   static Future<List<UserModel>> searchUser(String name) async {
