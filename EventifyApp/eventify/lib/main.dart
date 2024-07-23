@@ -33,9 +33,17 @@ Future<void> main() async {
   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => ApplicationState(),
-    builder: ((context, child) => const App()),
+  // runApp(ChangeNotifierProvider(
+  //   create: (context) => ApplicationState(),
+  //   builder: ((context, child) => const App()),
+  // ));
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ApplicationState()),
+      ChangeNotifierProvider(create: (_) => FirebaseProvider()),
+    ],
+    child: const App(),
   ));
 }
 
@@ -157,44 +165,45 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class App extends StatelessWidget {
   const App({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => FirebaseProvider(),
-      child: MaterialApp.router(
-        title: '',
-        theme: ThemeData(
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20),
-              minimumSize: const Size.fromHeight(52),
-              backgroundColor: Colors.yellow,
-            ),
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            titleTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          buttonTheme: Theme.of(context).buttonTheme.copyWith(
-                highlightColor: Colors.deepPurple,
-              ),
-          primarySwatch: Colors.deepPurple,
-          textTheme: GoogleFonts.robotoTextTheme(
-            Theme.of(context).textTheme,
-          ),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          useMaterial3: true,
-        ),
-        routerConfig: _router,
-        debugShowCheckedModeBanner: false,
-      ),
-    );
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return ChangeNotifierProvider(
+  //     create: (_) => FirebaseProvider(),
+  //     child: MaterialApp.router(
+  //       title: '',
+  //       theme: ThemeData(
+  //         elevatedButtonTheme: ElevatedButtonThemeData(
+  //           style: ElevatedButton.styleFrom(
+  //             textStyle: const TextStyle(fontSize: 20),
+  //             minimumSize: const Size.fromHeight(52),
+  //             backgroundColor: Colors.yellow,
+  //           ),
+  //         ),
+  //         appBarTheme: const AppBarTheme(
+  //           backgroundColor: Colors.transparent,
+  //           elevation: 0,
+  //           titleTextStyle: TextStyle(
+  //             color: Colors.black,
+  //             fontSize: 35,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         ),
+  //         buttonTheme: Theme.of(context).buttonTheme.copyWith(
+  //               highlightColor: Colors.deepPurple,
+  //             ),
+  //         primarySwatch: Colors.deepPurple,
+  //         textTheme: GoogleFonts.robotoTextTheme(
+  //           Theme.of(context).textTheme,
+  //         ),
+  //         visualDensity: VisualDensity.adaptivePlatformDensity,
+  //         useMaterial3: true,
+  //       ),
+  //       routerConfig: _router,
+  //       debugShowCheckedModeBanner: false,
+  //     ),
+  //   );
+  // }
+
   // @override
   // Widget build(BuildContext context) => ChangeNotifierProvider(
   //       create: (_) => FirebaseProvider(),
@@ -220,10 +229,46 @@ class App extends StatelessWidget {
   //         home: const ChatPage(),
   //       ),
   //     );
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: '',
+      theme: ThemeData(
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+              highlightColor: Colors.deepPurple,
+            ),
+        primarySwatch: Colors.deepPurple,
+        textTheme: GoogleFonts.robotoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        useMaterial3: true,
+      ),
+      routerConfig: _router,
+      //home: const HomePage(),
+    );
+  }
+
+  // @override
   // Widget build(BuildContext context) {
   //   return MaterialApp.router(
   //     title: '',
   //     theme: ThemeData(
+  //       elevatedButtonTheme: ElevatedButtonThemeData(
+  //         style: ElevatedButton.styleFrom(
+  //           textStyle: const TextStyle(fontSize: 20),
+  //           minimumSize: const Size.fromHeight(52),
+  //           backgroundColor: Colors.yellow,
+  //         ),
+  //       ),
+  //       appBarTheme: const AppBarTheme(
+  //         backgroundColor: Colors.transparent,
+  //         elevation: 0,
+  //         titleTextStyle: TextStyle(
+  //           color: Colors.black,
+  //           fontSize: 35,
+  //           fontWeight: FontWeight.bold,
+  //         ),
+  //       ),
   //       buttonTheme: Theme.of(context).buttonTheme.copyWith(
   //             highlightColor: Colors.deepPurple,
   //           ),
@@ -235,7 +280,8 @@ class App extends StatelessWidget {
   //       useMaterial3: true,
   //     ),
   //     routerConfig: _router,
-  //     //home: const HomePage(),
+  //     debugShowCheckedModeBanner: false,
   //   );
   // }
 }
+
