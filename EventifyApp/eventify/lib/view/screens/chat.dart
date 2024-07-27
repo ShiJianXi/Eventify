@@ -3,7 +3,6 @@ import 'package:eventify/model/user.dart';
 import 'package:eventify/service/firebase_firestore_service.dart';
 import 'package:eventify/view/screens/search_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:provider/provider.dart';
 import 'package:eventify/provider/firebase_provider.dart';
 import 'package:eventify/view/widgets/user_item.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
+  
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -77,9 +77,20 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       lastActive: DateTime.now(),
     ),
   ];
-
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    if (currentUser == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Chats'),
+        ),
+        body: Center(
+          child: Text('You need to be logged in to see your chats.'),
+        ),
+      );
+    }
+      return Scaffold(
         appBar: AppBar(
           title: const Text('Chats'),
           actions: [
@@ -88,11 +99,6 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   MaterialPageRoute(builder: (_) => const UsersSearchScreen())),
               icon: const Icon(Icons.search, color: Colors.black),
             ),
-            // IconButton(
-            //   // Try whether the following works
-            //   onPressed: () => FirebaseAuth.instance.signOut(),
-            //   icon: const Icon(Icons.logout, color: Colors.black),
-            // ),
           ],
         ),
         body: Consumer<FirebaseProvider>(builder: (context, value, child) {
@@ -108,28 +114,5 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   : const SizedBox());
         }),
       );
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Chats'),
-  //     ),
-  //     body: Consumer<FirebaseProvider>(
-  //       builder: (context, firebaseProvider, child) {
-  //         if (firebaseProvider.users.isEmpty) {
-  //           return const Center(child: CircularProgressIndicator());
-  //         } else {
-  //           return ListView.separated(
-  //             padding: const EdgeInsets.symmetric(horizontal: 16),
-  //             itemCount: firebaseProvider.users.length,
-  //             separatorBuilder: (context, index) => const SizedBox(height: 10),
-  //             physics: const BouncingScrollPhysics(),
-  //             itemBuilder: (context, index) =>
-  //                 UserItem(user: firebaseProvider.users[index]),
-  //           );
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
+}
 }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:go_router/go_router.dart';
-import 'event_details_page.dart';
-//Features to be implemented: event on click leads to event detail page
+import '../screens/event_details_page.dart';
+
 
 class Event_display extends StatelessWidget {
   final String title;
   final String description;
-  //final String time;
   final String startDate;
   final String endDate;
   final String startTime;
@@ -20,7 +18,6 @@ class Event_display extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
-    //required this.time,
     required this.startDate,
     required this.endDate,
     required this.startTime,

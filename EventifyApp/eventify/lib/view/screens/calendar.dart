@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'event_display.dart';
+import '../widgets/event_display.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});

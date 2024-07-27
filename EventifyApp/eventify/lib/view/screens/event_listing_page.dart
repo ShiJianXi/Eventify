@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-//UI to be improved in the future, and also instead of using image url, might change to using image from gallery or camera
-//Image from galley implemented, need improve UI next
 
 class EventListingPage extends StatefulWidget {
   const EventListingPage({super.key});
@@ -20,7 +18,6 @@ class _EventListingPageState extends State<EventListingPage> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  //final _timeController = TextEditingController();
   final _locationController = TextEditingController();
   final _priceController = TextEditingController();
   File? _image;
@@ -69,7 +66,6 @@ class _EventListingPageState extends State<EventListingPage> {
         await FirebaseFirestore.instance.collection('events').add({
           'title': _titleController.text,
           'description': _descriptionController.text,
-          //'time': _timeController.text,
           'startDate': _startDate,
           'endDate': _endDate,
           'startTime': _startTime!.format(context),
@@ -120,10 +116,6 @@ class _EventListingPageState extends State<EventListingPage> {
     }
   }
 
-//       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-//         content: Text('Event added successfully!'),
-//       ));
-//       _formKey.currentState!.reset();
   //Allow users to select timing using a clock widget
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -153,67 +145,6 @@ class _EventListingPageState extends State<EventListingPage> {
           key: _formKey,
           child: ListView(
             children: [
-//               TextFormField(
-//                 controller: _titleController,
-//                 decoration: const InputDecoration(labelText: 'Title'),
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Please enter a title';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               TextFormField(
-//                 controller: _descriptionController,
-//                 decoration: const InputDecoration(labelText: 'Description'),
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Please enter a description';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               TextFormField(
-//                 controller: _timeController,
-//                 decoration: const InputDecoration(labelText: 'Time'),
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Please enter a time';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               TextFormField(
-//                 controller: _thumbnailUrlController,
-//                 decoration: const InputDecoration(labelText: 'Thumbnail URL'),
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Please enter a thumbnail URL';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               TextFormField(
-//                 controller: _locationController,
-//                 decoration: const InputDecoration(labelText: 'Location'),
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Please enter a location';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               TextFormField(
-//                 controller: _priceController,
-//                 decoration: const InputDecoration(labelText: 'Price'),
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Please enter a price';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               const SizedBox(height: 20),
               Card(
                 elevation: 4,
                 child: Padding(
