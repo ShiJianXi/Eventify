@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../app_state.dart';
-import '../../src/authentication.dart';
+import 'authentication.dart';
 import 'package:eventify/service/firebase_firestore_service.dart';
 
 class HomePage extends StatefulWidget {
