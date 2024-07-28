@@ -19,7 +19,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
           .doc(eventId)
           .delete();
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Event deleted successfully')));
+          .showSnackBar(const SnackBar(content: Text('Event deleted successfully')));
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Failed to delete event: $e')));
@@ -31,9 +31,9 @@ class _MyEventsPageState extends State<MyEventsPage> {
     if (currentUser == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('My Events'),
+          title: const Text('My Events'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('You need to be logged in to see your events.'),
         ),
       );
@@ -41,7 +41,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Events'),
+        title: const Text('My Events'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -51,7 +51,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             print('Error: ${snapshot.error}');
@@ -60,26 +60,26 @@ class _MyEventsPageState extends State<MyEventsPage> {
                     Text('Something went wrong: ${snapshot.error.toString()}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No events found.'));
+            return const Center(child: Text('No events found.'));
           }
 
           var events = snapshot.data!.docs.map((doc) {
             var data = doc.data() as Map<String, dynamic>;
             return Card(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               elevation: 5,
               child: ListTile(
                 leading: data['thumbnailUrl'] != null
                     ? Image.network(data['thumbnailUrl'],
                         width: 50, height: 50, fit: BoxFit.cover)
-                    : Icon(Icons.event, size: 50),
+                    : const Icon(Icons.event, size: 50),
                 title: Text(data['title'] ?? '',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(data['description'] ?? ''),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text('Location: ${data['location'] ?? ''}'),
                     Text(
                         'Date: ${data['startDate'] != null ? (data['startDate'] as Timestamp).toDate().toString().split(' ')[0] : ''}'),
@@ -88,7 +88,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                   ],
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
+                  icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
                     _deleteEvent(doc.id);
                   },

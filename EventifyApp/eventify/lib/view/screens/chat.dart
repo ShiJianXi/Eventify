@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
-  
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -77,42 +76,43 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       lastActive: DateTime.now(),
     ),
   ];
+
   final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     if (currentUser == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Chats'),
+          title: const Text('Chats'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('You need to be logged in to see your chats.'),
         ),
       );
     }
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Chats'),
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const UsersSearchScreen())),
-              icon: const Icon(Icons.search, color: Colors.black),
-            ),
-          ],
-        ),
-        body: Consumer<FirebaseProvider>(builder: (context, value, child) {
-          return ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: value.users.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
-              physics: const BouncingScrollPhysics(),
-              // Got to check whether the FirebaseAuth is correct one since mine is using the pre-built
-              itemBuilder: (context, index) => value.users[index].uid !=
-                      FirebaseAuth.instance.currentUser?.uid
-                  ? UserItem(user: value.users[index])
-                  : const SizedBox());
-        }),
-      );
-}
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Chats'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const UsersSearchScreen())),
+            icon: const Icon(Icons.search, color: Colors.black),
+          ),
+        ],
+      ),
+      body: Consumer<FirebaseProvider>(builder: (context, value, child) {
+        return ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: value.users.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            physics: const BouncingScrollPhysics(),
+            // Got to check whether the FirebaseAuth is correct one since mine is using the pre-built
+            itemBuilder: (context, index) =>
+                value.users[index].uid != FirebaseAuth.instance.currentUser?.uid
+                    ? UserItem(user: value.users[index])
+                    : const SizedBox());
+      }),
+    );
+  }
 }

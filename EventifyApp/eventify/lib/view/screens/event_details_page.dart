@@ -1,6 +1,7 @@
 //This page shows the details of the specific event when the users clicks on the event on the home page
 
 import 'package:eventify/view/screens/chat_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,7 +17,7 @@ class EventDetailsPage extends StatelessWidget {
   final String price;
   final String userId;
 
-  const EventDetailsPage({
+  EventDetailsPage({
     super.key,
     required this.title,
     required this.description,
@@ -30,6 +31,7 @@ class EventDetailsPage extends StatelessWidget {
     required this.userId,
   });
 
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,7 @@ class EventDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Image.network(
                 thumbnailUrl,
@@ -70,26 +72,50 @@ class EventDetailsPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.chat),
-                        color: Colors.blueAccent,
-                        onPressed: () {
-                          context.push('/chat');
-                        },
-                      ),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (_) => ChatScreen(userId: userId))),
-                        child: const Text(
-                          'Chat with Organiser',
-                          style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.w600,
+                      if (currentUser != null) ...[
+                        IconButton(
+                          icon: const Icon(Icons.chat),
+                          color: Colors.blueAccent,
+                          onPressed: () {
+                            context.push('/chat');
+                          },
+                        ),
+                        const SizedBox(width: 4),
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) => ChatScreen(userId: userId))),
+                          child: const Text(
+                            'Chat with Organiser',
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
+                      ],
+                      if (currentUser == null) ...[
+                        IconButton(
+                          icon: const Icon(Icons.chat),
+                          color: Colors.blueAccent,
+                          onPressed: () {
+                            context.push('/sign-in');
+                          },
+                        ),
+                        const SizedBox(width: 4),
+                        GestureDetector(
+                          onTap: () {
+                            context.push('/sign-in');
+                          },
+                          child: const Text(
+                            'Login to chat with Organiser',
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                   const SizedBox(height: 8),

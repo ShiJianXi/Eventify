@@ -1,6 +1,7 @@
 import 'package:eventify/provider/firebase_provider.dart';
 import 'package:eventify/view/widgets/chat_messages.dart';
 import 'package:eventify/view/widgets/chat_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,8 +24,19 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
   }
 
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    if (currentUser == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Chats'),
+        ),
+        body: const Center(
+          child: Text('You need to be logged in to see your chats.'),
+        ),
+      );
+    }
     return Scaffold(
       appBar: _buildAppBar(),
       body: Padding(
