@@ -133,8 +133,20 @@ class _EventListingPageState extends State<EventListingPage> {
     }
   }
 
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    if (currentUser == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Event Listing'),
+        ),
+        body: const Center(
+          child: Text('You need to be logged in to list your events.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Event Listing'),
